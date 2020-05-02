@@ -1,6 +1,8 @@
 #ifndef _ULTRASONIC_H
 #define _ULTRASONIC_H
 
+#include <Arduino.h>
+
 class MeasureDistance
 {
   private:
