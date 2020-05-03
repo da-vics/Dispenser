@@ -2,23 +2,24 @@
    Contactless Water Dispenser by Mealimeter
 
 */
-
 #include "ControlFlow.h"
 #define DEBUG true
+
+#define ledPin 11
+
 /**
    @Brief pinOuts for ultraSonic Sensors
 */
-const short echoPinCold = 2,
-            trigPinCold = 3,
-            echoPinHot = 4,
-            trigPinHot = 5;
+const short echoPinCold = 3,
+            trigPinCold = 2,
+            echoPinHot = 5,
+            trigPinHot = 4;
 
 /**
    @Brief pinOuts for Servo
 */
 const short servoCold = 9,
             servoHot = 10;
-
 
 /**
    @Brief ultra sonic instance
@@ -38,7 +39,8 @@ ServoCtrl servoctrlHot(servoHot);
 FlowCtrl ctrlFlowCold(&servoctrlCold, &ultraDistanceCold);
 FlowCtrl ctrlFlowHot(&servoctrlHot, &ultraDistanceHot);
 
-void setup() {
+void setup()
+{
 
   pinMode(trigPinCold, OUTPUT);
   pinMode(echoPinCold, INPUT);
@@ -46,32 +48,44 @@ void setup() {
   pinMode(trigPinHot, OUTPUT);
   pinMode(echoPinHot, INPUT);
 
+  pinMode(ledPin, OUTPUT);
+
   Serial.begin(9600);
 
   /**
-     @Brief attach Servo
+    @Brief attach Servo
   */
   servoctrlCold.attachServo();
   servoctrlHot.attachServo();
 
   /**
-     @Brief Reset servo
+    @Brief Reset servo
   */
   servoctrlCold.resetServo();
   servoctrlHot.resetServo();
 }
 
-void loop() {
+void loop()
+{
 
   ctrlFlowCold.controlService();
   ctrlFlowHot.controlService();
 
-#ifdef DEBUG == true
+#ifdef DEBUG
+
+  if ( ultraDistanceCold.getDistance() <= 10)
+  {
+    digitalWrite(ledPin, HIGH);
+  }
+
+  else {
+    digitalWrite(ledPin, LOW);
+  }
+
   Serial.print("Cold: ");
-  Serial.println( ultraDistanceCold.getDistance());
+  Serial.println(ultraDistanceCold.getDistance());
 
   Serial.print("Hot: ");
-  Serial.println( ultraDistanceHot.getDistance());
+  Serial.println(ultraDistanceHot.getDistance());
 #endif
-
 }
