@@ -17,7 +17,7 @@ class FlowCtrl
       this->_sonicDistance = sonictrl;
     }
 
-    void controlService() const;
+    void controlService(const short , const short) const;
 
 };
 

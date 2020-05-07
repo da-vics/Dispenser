@@ -3,9 +3,10 @@
 
 */
 #include "ControlFlow.h"
-#define DEBUG true
+#define DEBUG false
 
-#define ledPin 11
+#define ledPinCold 11  /// cold 
+#define ledPinHot 12 /// hot
 
 /**
    @Brief pinOuts for ultraSonic Sensors
@@ -30,8 +31,8 @@ MeasureDistance ultraDistanceHot(echoPinHot, trigPinHot);
 /**
    @Brief  servo instance
 */
-ServoCtrl servoctrlCold(servoCold);
-ServoCtrl servoctrlHot(servoHot);
+ServoCtrl servoctrlCold(servoCold, ledPinCold);
+ServoCtrl servoctrlHot(servoHot, ledPinHot);
 
 /**
    @Brief Control flow instance
@@ -48,7 +49,8 @@ void setup()
   pinMode(trigPinHot, OUTPUT);
   pinMode(echoPinHot, INPUT);
 
-  pinMode(ledPin, OUTPUT);
+  pinMode(ledPinCold, OUTPUT);
+  pinMode(ledPinHot, OUTPUT);
 
   Serial.begin(9600);
 
@@ -61,31 +63,22 @@ void setup()
   /**
     @Brief Reset servo
   */
-  servoctrlCold.resetServo();
-  servoctrlHot.resetServo();
+  servoctrlCold.resetServo(0);
+  servoctrlHot.resetServo(0);
 }
 
 void loop()
 {
 
-  ctrlFlowCold.controlService();
-  ctrlFlowHot.controlService();
+  ctrlFlowCold.controlService(80, 0);
+  ctrlFlowHot.controlService(80, 0);
 
 #ifdef DEBUG
-
-  if ( ultraDistanceCold.getDistance() <= 10)
-  {
-    digitalWrite(ledPin, HIGH);
-  }
-
-  else {
-    digitalWrite(ledPin, LOW);
-  }
-
   Serial.print("Cold: ");
   Serial.println(ultraDistanceCold.getDistance());
 
   Serial.print("Hot: ");
   Serial.println(ultraDistanceHot.getDistance());
 #endif
+
 }

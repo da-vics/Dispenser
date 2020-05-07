@@ -1,14 +1,14 @@
 #include "ControlFlow.h"
 
-void FlowCtrl::controlService() const
+void FlowCtrl::controlService(const short activeDegree, const short resetDegree) const
 {
   if (_sonicDistance->getDistance() <= _maxDistance)
   {
-    _servoCtrl->activateServo(80);
+    _servoCtrl->activateServo(activeDegree);
   }
 
   else {
-    _servoCtrl->resetServo();
+    _servoCtrl->resetServo(resetDegree);
   }
 
 }///

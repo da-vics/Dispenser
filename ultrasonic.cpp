@@ -2,7 +2,7 @@
 
 void MeasureDistance::initDistance()
 {
-  delay(500);
+  delay(200);
   
   digitalWrite(this->trigPin, LOW);
   delayMicroseconds(2);
