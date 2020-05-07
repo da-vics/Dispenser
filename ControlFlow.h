@@ -7,12 +7,14 @@
 class FlowCtrl
 {
 private:
-  int _maxDistance{10};
+  uint32_t _maxDistance{15};
   ServoCtrl *_servoCtrl{nullptr};
   MeasureDistance *_sonicDistance{nullptr};
   ServicePriority &controlFlowPriority;
 
 public:
+  FlowCtrl() = delete;
+
   FlowCtrl(ServoCtrl *servoctrl, MeasureDistance *sonictrl, ServicePriority ctrlPriority)
   {
     this->_servoCtrl = servoctrl;
