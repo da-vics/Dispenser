@@ -5,8 +5,8 @@
 #include "ControlFlow.h"
 #define DEBUG 0
 
-#define ledPinCold 11  /// cold 
-#define ledPinHot 12 /// hot
+#define ledPinCold 11 /// cold
+#define ledPinHot 12  /// hot
 
 /**
    @Brief pinOuts for ultraSonic Sensors
@@ -22,17 +22,16 @@ const short echoPinCold = 3,
 const short servoCold = 9,
             servoHot = 10;
 
-
-MeasureDistance ultraDistanceCold(echoPinCold, trigPinCold);
-MeasureDistance ultraDistanceHot(echoPinHot, trigPinHot);
-
+MeasureDistance ultraDistanceCold(echoPinCold, trigPinCold, Identifier::ServiceCold);
+MeasureDistance ultraDistanceHot(echoPinHot, trigPinHot, Identifier::ServiceHot);
 
 ServoCtrl servoctrlCold(servoCold, ledPinCold);
 ServoCtrl servoctrlHot(servoHot, ledPinHot);
 
+ServicePriority controlServicePriority = ServicePriority::Null; /// @services.h
 
-FlowCtrl ctrlFlowCold(&servoctrlCold, &ultraDistanceCold);
-FlowCtrl ctrlFlowHot(&servoctrlHot, &ultraDistanceHot);
+FlowCtrl ctrlFlowCold(&servoctrlCold, &ultraDistanceCold, controlServicePriority);
+FlowCtrl ctrlFlowHot(&servoctrlHot, &ultraDistanceHot, controlServicePriority);
 
 void setup()
 {
@@ -63,7 +62,6 @@ void loop()
   ctrlFlowCold.controlService(0, 80);
   ctrlFlowHot.controlService(80, 0);
 
-
 #if DEBUG
   Serial.print("Cold: ");
   Serial.println(ultraDistanceCold.getDistance());
@@ -71,5 +69,4 @@ void loop()
   Serial.print("Hot: ");
   Serial.println(ultraDistanceHot.getDistance());
 #endif
-
 }

@@ -2,13 +2,21 @@
 
 void FlowCtrl::controlService(const short activeDegree, const short resetDegree) const
 {
-  if (_sonicDistance->getDistance() <= _maxDistance)
+
+  if (this->_sonicDistance->serviceIdentity == (Identifier)this->controlFlowPriority || this->controlFlowPriority == ServicePriority::Null)
   {
-    _servoCtrl->activateServo(activeDegree);
-  }
+    if (_sonicDistance->getDistance() <= _maxDistance)
+    {
+      _servoCtrl->activateServo(activeDegree);
+      this->controlFlowPriority = (ServicePriority)this->_sonicDistance->serviceIdentity;
+    }
 
-  else {
-    _servoCtrl->resetServo(resetDegree);
-  }
+    else
+    {
+      this->controlFlowPriority = ServicePriority::Null;
+      _servoCtrl->resetServo(resetDegree);
+    } ///
 
-}///
+  } ///
+
+} ///

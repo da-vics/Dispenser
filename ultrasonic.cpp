@@ -22,7 +22,6 @@ void MeasureDistance::initDistance()
   }
 
   this->distance /= 5;
-
 }
 
 int MeasureDistance::getDistance()

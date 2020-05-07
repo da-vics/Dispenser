@@ -1,8 +1,9 @@
 #ifndef _ULTRASONIC_H
 #define _ULTRASONIC_H
 
-#include <Arduino.h>
+#include "services.h"
 
+#include <Arduino.h>
 class MeasureDistance
 {
   private:
@@ -13,9 +14,9 @@ class MeasureDistance
     void initDistance();
 
   public:
-    MeasureDistance(const short echo,const short trig) : echoPin{echo} , trigPin{trig} {}
+    Identifier serviceIdentity;
+    MeasureDistance(const short echo, const short trig, const Identifier identify) : echoPin{echo}, trigPin{trig}, serviceIdentity{identify} {}
     int getDistance();
-
 };
 
 #endif
