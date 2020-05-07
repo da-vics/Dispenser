@@ -2,19 +2,27 @@
 
 void MeasureDistance::initDistance()
 {
-  delay(200);
-  
-  digitalWrite(this->trigPin, LOW);
-  delayMicroseconds(2);
+  delay(100);
 
-  digitalWrite(this->trigPin, HIGH);
-  delayMicroseconds(10);
+  int count = 1;
+  while (count <= 5)
+  {
+    digitalWrite(this->trigPin, LOW);
+    delayMicroseconds(2);
 
-  digitalWrite(this->trigPin, LOW);
+    digitalWrite(this->trigPin, HIGH);
+    delayMicroseconds(10);
 
-  this->duration = pulseIn(this->echoPin, HIGH);
+    digitalWrite(this->trigPin, LOW);
 
-  this->distance = (duration * 0.034) / 2;
+    this->duration = pulseIn(this->echoPin, HIGH);
+
+    this->distance += (duration * 0.034) / 2;
+    count++;
+  }
+
+  this->distance /= 5;
+
 }
 
 int MeasureDistance::getDistance()
