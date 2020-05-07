@@ -6,23 +6,23 @@
 
 class FlowCtrl
 {
-private:
-  uint32_t _maxDistance{15};
-  ServoCtrl *_servoCtrl{nullptr};
-  MeasureDistance *_sonicDistance{nullptr};
-  ServicePriority &controlFlowPriority;
+  private:
+    uint32_t _maxDistance{15};
+    ServoCtrl *_servoCtrl{nullptr};
+    MeasureDistance *_sonicDistance{nullptr};
+    ServicePriority &controlFlowPriority;
 
-public:
-  FlowCtrl() = delete;
+  public:
+    FlowCtrl() = delete;
 
-  FlowCtrl(ServoCtrl *servoctrl, MeasureDistance *sonictrl, ServicePriority ctrlPriority)
-  {
-    this->_servoCtrl = servoctrl;
-    this->_sonicDistance = sonictrl;
-    this->controlFlowPriority = ctrlPriority;
-  }
+    FlowCtrl(ServoCtrl *servoctrl, MeasureDistance *sonictrl, ServicePriority ctrlPriority)
+    {
+      this->_servoCtrl = servoctrl;
+      this->_sonicDistance = sonictrl;
+      this->controlFlowPriority = ctrlPriority;
+    }
 
-  void controlService(const short, const short) const;
+    void controlService(const short, const short) const;
 };
 
 #endif
