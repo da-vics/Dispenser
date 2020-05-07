@@ -22,21 +22,15 @@ const short echoPinCold = 3,
 const short servoCold = 9,
             servoHot = 10;
 
-/**
-   @Brief ultra sonic instance
-*/
+
 MeasureDistance ultraDistanceCold(echoPinCold, trigPinCold);
 MeasureDistance ultraDistanceHot(echoPinHot, trigPinHot);
 
-/**
-   @Brief  servo instance
-*/
+
 ServoCtrl servoctrlCold(servoCold, ledPinCold);
 ServoCtrl servoctrlHot(servoHot, ledPinHot);
 
-/**
-   @Brief Control flow instance
-*/
+
 FlowCtrl ctrlFlowCold(&servoctrlCold, &ultraDistanceCold);
 FlowCtrl ctrlFlowHot(&servoctrlHot, &ultraDistanceHot);
 
@@ -52,17 +46,13 @@ void setup()
   pinMode(ledPinCold, OUTPUT);
   pinMode(ledPinHot, OUTPUT);
 
+#if DEBUG
   Serial.begin(9600);
+#endif
 
-  /**
-    @Brief attach Servo
-  */
   servoctrlCold.attachServo();
   servoctrlHot.attachServo();
 
-  /**
-    @Brief Reset servo
-  */
   servoctrlCold.resetServo(80);
   servoctrlHot.resetServo(0);
 }
