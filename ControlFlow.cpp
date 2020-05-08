@@ -15,6 +15,7 @@ void FlowCtrl::controlService(const short activeDegree, const short resetDegree)
     {
       this->controlFlowPriority = ServicePriority::Null;
       _servoCtrl->resetServo(resetDegree);
+      delay(200);
     } ///
 
   } ///
