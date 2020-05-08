@@ -8,6 +8,7 @@ void ServoCtrl::activateServo(const short servoDegree) const {
 void ServoCtrl::resetServo(const short resetServoDegree) const {
   digitalWrite(this->_ledPin, LOW);
   this->myservo.write(resetServoDegree);
+  delay(200);
 }
 
 void ServoCtrl::attachServo() const {
