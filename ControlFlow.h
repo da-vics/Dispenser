@@ -7,7 +7,6 @@
 class FlowCtrl
 {
   private:
-    uint32_t _maxDistance{10};
     ServoCtrl *_servoCtrl{nullptr};
     MeasureDistance *_sonicDistance{nullptr};
     ServicePriority &controlFlowPriority;

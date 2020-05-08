@@ -3,7 +3,6 @@
 
 */
 #include "ControlFlow.h"
-#define DEBUG 0
 
 #define ledPinCold 11 /// cold
 #define ledPinHot 12  /// hot
@@ -58,15 +57,6 @@ void setup()
 
 void loop()
 {
-
   ctrlFlowCold.controlService(0, 80);
   ctrlFlowHot.controlService(80, 0);
-
-#if DEBUG
-  Serial.print("Cold: ");
-  Serial.println(ultraDistanceCold.getDistance());
-
-  Serial.print("Hot: ");
-  Serial.println(ultraDistanceHot.getDistance());
-#endif
 }

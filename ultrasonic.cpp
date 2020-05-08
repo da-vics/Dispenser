@@ -2,10 +2,15 @@
 
 void MeasureDistance::initDistance()
 {
-  delay(100);
 
-  int count = 1;
-  while (count <= 5)
+#define avg 3
+  int count = 0;
+  bool once = true;
+  bool contin = true;
+
+  this->distance = 0;
+
+  while (count < avg && contin == true)
   {
     digitalWrite(this->trigPin, LOW);
     delayMicroseconds(2);
@@ -17,11 +22,26 @@ void MeasureDistance::initDistance()
 
     this->duration = pulseIn(this->echoPin, HIGH);
 
-    this->distance += (duration * 0.034) / 2;
+    this->distance += (int) (duration * 0.034) / 2;
     count++;
+
+    if (once)
+    {
+      once = false;
+      if (this->distance > MeasureDistance::_maxDistance) contin = false;
+    }///
+
   }
 
-  this->distance /= 5;
+  this->distance /= count;
+
+#if DEBUG
+  Serial.print((int)this->serviceIdentity);
+  Serial.print(" distance: ");
+  Serial.println(distance);
+#endif
+
+
 }
 
 int MeasureDistance::getDistance()
