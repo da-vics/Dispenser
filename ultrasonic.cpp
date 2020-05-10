@@ -2,9 +2,10 @@
 
 void MeasureDistance::initDistance()
 {
-#define avg 10
+#define avg 5
   int count = 0;
   this->distance = 0;
+  bool proceed = false;
 
   while (count < avg)
   {
@@ -20,16 +21,26 @@ void MeasureDistance::initDistance()
 
     this->distance += (int) (duration * 0.034) / 2;
     count++;
+
+    proceed = true;
+
+    if (count == 2 && (distance / count) > 15)
+    {
+      proceed = false;
+      break;
+    }///
   }
 
-  this->distance /= avg;
+  if (proceed)
+    this->distance /= avg;
+
+  else this->distance = 20; /// test
 
 #if DEBUG
   Serial.print((int)this->serviceIdentity);
   Serial.print(" distance: ");
   Serial.println(distance);
 #endif
-
 
 }
 
