@@ -1,19 +1,13 @@
 /*
    Contactless Water Dispenser by Mealimeter
-
 */
 #include "ControlFlow.h"
 
 #define ledPinCold 11 /// cold
 #define ledPinHot 12  /// hot
 
-/**
-   @Brief pinOuts for ultraSonic Sensors
-*/
-const short echoPinCold = 3,
-            trigPinCold = 2,
-            echoPinHot = 5,
-            trigPinHot = 4;
+const short IRPinCold = 3,
+            IRPinHot = 4;
 
 /**
    @Brief pinOuts for Servo
@@ -21,25 +15,22 @@ const short echoPinCold = 3,
 const short servoCold = 9,
             servoHot = 10;
 
-MeasureDistance ultraDistanceCold(echoPinCold, trigPinCold, Identifier::ServiceCold);
-MeasureDistance ultraDistanceHot(echoPinHot, trigPinHot, Identifier::ServiceHot);
+MeasureDistance IRDistanceCold(IRPinCold, Identifier::ServiceCold);
+MeasureDistance IRDistanceHot(IRPinHot, Identifier::ServiceHot);
 
 ServoCtrl servoctrlCold(servoCold, ledPinCold);
 ServoCtrl servoctrlHot(servoHot, ledPinHot);
 
 ServicePriority controlServicePriority = ServicePriority::Null; /// @services.h
 
-FlowCtrl ctrlFlowCold(&servoctrlCold, &ultraDistanceCold, controlServicePriority);
-FlowCtrl ctrlFlowHot(&servoctrlHot, &ultraDistanceHot, controlServicePriority);
+FlowCtrl ctrlFlowCold(&servoctrlCold, &IRDistanceCold, controlServicePriority);
+FlowCtrl ctrlFlowHot(&servoctrlHot, &IRDistanceHot, controlServicePriority);
 
 void setup()
 {
 
-  pinMode(trigPinCold, OUTPUT);
-  pinMode(echoPinCold, INPUT);
-
-  pinMode(trigPinHot, OUTPUT);
-  pinMode(echoPinHot, INPUT);
+  pinMode(IRPinHot, INPUT);
+  pinMode(IRPinCold, INPUT);
 
   pinMode(ledPinCold, OUTPUT);
   pinMode(ledPinHot, OUTPUT);
@@ -48,6 +39,11 @@ void setup()
   Serial.begin(9600);
 #endif
 
+ /* cli();
+  PCICR |= 0b00000100;
+  PCMSK2 |= 0b00011000;
+  sei();
+*/
   servoctrlCold.attachServo();
   servoctrlHot.attachServo();
 
@@ -60,3 +56,16 @@ void loop()
   ctrlFlowCold.controlService(0, 80);
   ctrlFlowHot.controlService(80, 0);
 }
+/*
+ISR(PCINT2_vect)
+{
+  
+  if(digitalRead(7) == HIGH)
+  {
+
+    Serial.println("HIGH");
+    digitalWrite(13,HIGH);
+    
+  }
+  */
+  

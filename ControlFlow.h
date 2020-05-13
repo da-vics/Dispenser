@@ -1,27 +1,29 @@
 #ifndef _CONTROLFLOW_H
 #define _CONTROLFLOW_H
 
-#include "ultrasonic.h"
+#define DEBUG true
+
+#include "IRClass.h"
 #include "ServoCtrl.h"
 
 class FlowCtrl
 {
-  private:
-    ServoCtrl *_servoCtrl{nullptr};
-    MeasureDistance *_sonicDistance{nullptr};
-    ServicePriority &controlFlowPriority;
+private:
+  ServoCtrl *_servoCtrl{nullptr};
+  MeasureDistance *_IRDistace{nullptr};
+  ServicePriority &controlFlowPriority;
 
-  public:
-    FlowCtrl() = delete;
+public:
+  FlowCtrl() = delete;
 
-    FlowCtrl(ServoCtrl *servoctrl, MeasureDistance *sonictrl, ServicePriority ctrlPriority)
-    {
-      this->_servoCtrl = servoctrl;
-      this->_sonicDistance = sonictrl;
-      this->controlFlowPriority = ctrlPriority;
-    }
+  FlowCtrl(ServoCtrl *servoctrl, MeasureDistance *irctrl, ServicePriority ctrlPriority)
+  {
+    this->_servoCtrl = servoctrl;
+    this->_IRDistace = irctrl;
+    this->controlFlowPriority = ctrlPriority;
+  }
 
-    void controlService(const short, const short) const;
+  void controlService(const short, const short) const;
 };
 
 #endif
